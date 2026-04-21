@@ -1,20 +1,22 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const db = require('./database');
+const authRoutes = require('./src/routes/authRoutes'); // Suponiendo que creaste este archivo
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Para que el servidor entienda JSON
+app.use(express.json());
 
-const PORT = 5000;
+// Rutas
+app.use('/api/auth', authRoutes);
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-  res.send('Servidor de Glucosa funcionando 🚀');
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
 
-// --- AQUÍ IRÁN LAS RUTAS DE USUARIO Y MEDICIONES ---
+// ... (código anterior)
+const authRoutes = require('./src/routes/authRoutes');
+const measurementRoutes = require('./src/routes/measurementRoutes');
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+app.use('/api/auth', authRoutes);
+app.use('/api/measurements', measurementRoutes); // Nueva ruta añadida
+// ...

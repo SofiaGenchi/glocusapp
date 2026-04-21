@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (¡Seguridad!)
+.env
+
+# Base de datos local
+*.db
+*.db-journal
+
+# Logs
+npm-debug.log*
