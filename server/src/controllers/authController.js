@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
 exports.register = async (req, res) => {
+    console.log("Cuerpo recibido:", req.body);
     const { username, first_name, last_name, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
