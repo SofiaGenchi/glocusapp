@@ -9,7 +9,8 @@ exports.addMeasurement = (req, res) => {
     
     db.run(sql, [userId, glucose_value, date, time], function(err) {
         if (err) {
-            return res.status(500).json({ error: "Error al guardar la medición" });
+        console.error("DETALLE DEL ERROR:", err.message); // <--- ESTO ES CLAVE
+        return res.status(500).json({ error: "Error al guardar la medición", detalle: err.message });
         }
         res.status(201).json({ 
             message: "Medición guardada", 
