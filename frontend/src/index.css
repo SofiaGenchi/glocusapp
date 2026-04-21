@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  /* Tu paleta personalizada "Cemendi" */
+  --color-brand-bg: #F0F0F2;      /* Gris claro/Fondo */
+  --color-brand-main: #0367A6;    /* Azul profundo (Botones/Títulos) */
+  --color-brand-accent: #13C9F2;  /* Azul brillante */
+  --color-brand-light: #79F2F2;   /* Cian claro */
+  --color-brand-success: #50F2E2; /* Aguamarina */
+}
