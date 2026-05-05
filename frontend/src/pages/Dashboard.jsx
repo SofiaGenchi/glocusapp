@@ -111,7 +111,7 @@ const DashboardHeader = ({ user, menuOpen, onToggleMenu, onCloseMenu, onLogout, 
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
                     <div className="min-w-0">
                         <a href="#overview" onClick={onCloseMenu} className="inline-block rounded-lg focus:outline-none focus:ring-4 focus:ring-brand-accent/25">
-                            <p className="text-xs font-bold uppercase tracking-wide text-brand-main">Glucosa App</p>
+                            <p className="text-xs font-bold uppercase tracking-wide text-brand-main">GlucosaApp</p>
                             <h1 className="truncate text-lg font-black text-slate-950 sm:text-xl">Registro clínico</h1>
                         </a>
                         <p className="mt-1 truncate text-sm font-black uppercase tracking-wide text-brand-main">{userName}</p>

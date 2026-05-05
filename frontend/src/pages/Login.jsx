@@ -32,21 +32,21 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
             <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-6 sm:p-8 border-t-8 border-brand-main">
                 <h2 className="text-3xl font-black text-brand-main text-center mb-2">Iniciar Sesión</h2>
-                <p className="text-gray-500 text-center mb-8">Monitorea tu salud con Cemendi</p>
+                <p className="text-gray-500 text-center mb-8">Monitorea tu salud con GlucosApp</p>
 
                 {error && (
                     <div className="mb-4 rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-800">
                         {error}
                     </div>
                 )}
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="login_username" className="block text-sm font-semibold text-brand-main">Usuario</label>
-                        <input 
+                        <input
                             id="login_username"
                             name="username"
-                            type="text" 
+                            type="text"
                             className="w-full min-h-12 mt-1 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-brand-accent/25"
                             onChange={handleChange}
                             required
@@ -55,17 +55,17 @@ const Login = () => {
 
                     <div>
                         <label htmlFor="login_password" className="block text-sm font-semibold text-brand-main">Contraseña</label>
-                        <input 
+                        <input
                             id="login_password"
                             name="password"
-                            type="password" 
+                            type="password"
                             className="w-full min-h-12 mt-1 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-brand-accent/25"
                             onChange={handleChange}
                             required
                         />
                     </div>
 
-                    <button 
+                    <button
                         type="submit"
                         disabled={loading}
                         className="w-full min-h-12 bg-brand-main text-white py-3 rounded-lg font-bold shadow-lg hover:bg-brand-accent transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-brand-accent/25 disabled:cursor-not-allowed disabled:opacity-60"
