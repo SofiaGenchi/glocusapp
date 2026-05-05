@@ -1,7 +1,24 @@
 const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
-const db = new sqlite3.Database(process.env.DATABASE_PATH || './glucosa.db');
+const databasePath = process.env.DATABASE_PATH || './glucosa.db';
+const databaseDirectory = path.dirname(path.resolve(databasePath));
+
+try {
+    fs.mkdirSync(databaseDirectory, { recursive: true });
+} catch (err) {
+    console.error(`No se pudo crear el directorio de la base de datos (${databaseDirectory}):`, err.message);
+    process.exit(1);
+}
+
+const db = new sqlite3.Database(databasePath, (err) => {
+    if (err) {
+        console.error(`No se pudo abrir la base de datos en ${databasePath}:`, err.message);
+        process.exit(1);
+    }
+});
 
 const addColumnIfMissing = (tableName, columnName, definition) => {
     db.all(`PRAGMA table_info(${tableName})`, (err, columns) => {
