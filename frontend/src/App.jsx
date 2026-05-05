@@ -1,13 +1,37 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext } from './context/AuthContext';
+import { AuthContext } from './context/authStore';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
 // Componente para proteger rutas (Solo entras si estás logueado)
 const PrivateRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-bg text-brand-main font-semibold">
+        Cargando sesión...
+      </div>
+    );
+  }
+
   return user ? children : <Navigate replace to="/login" />;
+};
+
+const PublicRoute = ({ children }) => {
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-bg text-brand-main font-semibold">
+        Cargando sesión...
+      </div>
+    );
+  }
+
+  return user ? <Navigate replace to="/dashboard" /> : children;
 };
 
 function App() {
@@ -15,18 +39,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rutas Públicas */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 
         {/* Rutas Privadas (Dashboard) */}
         <Route 
           path="/dashboard" 
           element={
             <PrivateRoute>
-              <div className="p-8 text-center">
-                <h1 className="text-3xl font-bold text-brand-main">Bienvenido al Dashboard</h1>
-                <p>Aquí registraremos tu glucosa pronto...</p>
-              </div>
+              <Dashboard />
             </PrivateRoute>
           } 
         />

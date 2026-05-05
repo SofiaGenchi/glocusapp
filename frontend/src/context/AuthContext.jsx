@@ -1,11 +1,32 @@
-import { createContext, useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api/axios';
-
-// Creamos el contexto
-export const AuthContext = createContext();
+import { AuthContext } from './authStore';
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // Aquí guardaremos los datos del usuario
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const restoreSession = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const { data } = await api.get('/auth/me');
+                setUser(data.user);
+            } catch {
+                localStorage.removeItem('token');
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        restoreSession();
+    }, []);
 
     // Función para iniciar sesión
     const login = async (username, password) => {
@@ -26,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

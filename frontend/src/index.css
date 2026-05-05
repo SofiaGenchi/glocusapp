@@ -8,3 +8,22 @@
   --color-brand-light: #79F2F2;   /* Cian claro */
   --color-brand-success: #50F2E2; /* Aguamarina */
 }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    background: #f8fafc;
+    color: #0f172a;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}

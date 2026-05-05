@@ -3,8 +3,16 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
 exports.register = async (req, res) => {
-    console.log("Cuerpo recibido:", req.body);
     const { username, first_name, last_name, password } = req.body;
+
+    if (!username || !first_name || !last_name || !password) {
+        return res.status(400).json({ error: "Completá todos los campos para crear la cuenta." });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ error: "La contraseña debe tener al menos 6 caracteres." });
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const sql = `INSERT INTO users (username, first_name, last_name, password) VALUES (?, ?, ?, ?)`;
@@ -20,6 +28,11 @@ exports.register = async (req, res) => {
 
 exports.login = (req, res) => {
     const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: "Ingresá usuario y contraseña." });
+    }
+
     const sql = `SELECT * FROM users WHERE username = ?`;
 
     db.get(sql, [username], async (err, user) => {
@@ -29,6 +42,25 @@ exports.login = (req, res) => {
         if (!validPassword) return res.status(401).json({ error: "Credenciales inválidas" });
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.json({ token, user: { id: user.id, username: user.username } });
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                first_name: user.first_name,
+                last_name: user.last_name
+            }
+        });
+    });
+};
+
+exports.me = (req, res) => {
+    const sql = `SELECT id, username, first_name, last_name FROM users WHERE id = ?`;
+
+    db.get(sql, [req.user.id], (err, user) => {
+        if (err) return res.status(500).json({ error: "Error al obtener el usuario" });
+        if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+
+        res.json({ user });
     });
 };
